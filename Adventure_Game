@@ -1,0 +1,146 @@
+import time
+import random
+
+
+def print_pause(message_to_print):
+    print(message_to_print)
+    time.sleep(2)
+
+
+def intro():
+    print_pause("Welcome Player\n")
+    print_pause("You have just entered the Dragon's lair.\n")
+    print_pause("You are staring at 3 different caves.\n")
+
+
+def first_path(items):
+    print_pause("You choose to go down the first cave.\n")
+    print_pause("After a long and dark walk, you end"
+                " up in the Dragon's shackle chamber.\n")
+    if "magic key" in items:
+        print_pause("A shackled knight begs for your attention,"
+                    " but has already given you the magic key,"
+                    " so you are done here.\n")
+    else:
+        print_pause("A shackled knight begs for your attention"
+                    " and sneaks you a magic key.\n")
+        items.append("magic key")
+    print_pause("You make your way back to the entry point of the"
+                " Dragon's lair.\n")
+    entry_point(items)
+
+
+def second_path(items):
+    print_pause("You choose to go down the second cave.\n")
+    print_pause("After a long and dark walk, you end"
+                " up in the Dragon's gold keep!\n")
+    if "golden sword" in items:
+        print_pause("A magic carpet is flying all over"
+                    " the place but will not come down!\n")
+        print_pause("You try and get its attention but"
+                    " nothing is working, so you decide"
+                    " to give up.\n")
+    else:
+        print_pause("A magic carpet swoops in to acknowledge you!\n")
+        if "magic key" in items:
+            print_pause("The magic carpet wants to make a trade"
+                        " with you to get the magic key, so you"
+                        " agree and receive a golden sword in"
+                        " return.\n")
+            items.append("golden sword")
+        else:
+            print_pause("The magic carpet will trade you,"
+                        " but not until you agree with the offer.\n")
+    print_pause("You make your way back to the entry point of the"
+                " Dragon's lair.\n")
+    entry_point(items)
+
+
+def third_path(items):
+    print_pause("You choose to go down the third cave.\n")
+    print_pause("After a long and dark walk, you find"
+                " yourself facing a giant door that reads"
+                " 'Dragon'!\n")
+    print_pause("It is time to make a decision.\n")
+    print_pause("This is what you have trained for!\n")
+    if "magic key" in items:
+        print_pause("You use the magic key to unlock the door.\n")
+        print_pause("A massive Dragon is standing right in"
+                    " front of you and you reach for your"
+                    " golden sword, prepared to fight!\n")
+        if "golden sword" in items:
+            print_pause("Thanks to your quick thinking,"
+                        " you received the sword from the"
+                        " magic carpet.\n")
+            print_pause("This is where your training will"
+                        " come in to play. Time to slay the"
+                        " Dragon!\n")
+            print_pause("Congratulations! You have become"
+                        " the first Dragon slayer!\n")
+        else:
+            print_pause("The Dragon notices you do not have"
+                        " any weapons to protect yourself from"
+                        " wrath.\n")
+            print_pause("The Dragon defeats you, and you respawn"
+                        " back at the lair entry.\n")
+            entry_point(items)
+    else:
+        print_pause("You did not obtain the magic Key,"
+                    " so you cannot open the door that"
+                    " reads 'Dragon'.\n")
+        print_pause("You make your way back to the entry point of the"
+                    " Dragon's lair.\n")
+        entry_point(items)
+    play_again()
+
+
+def entry_point(items):
+    print_pause("Please choose the cave path you would like"
+                " to travel down:")
+    path = input("1. Shackle Chamber\n"
+                 "2. Dragon's Gold Keep\n"
+                 "3. Dragon's Door\n").lower()
+    if path == '1':
+        first_path(items)
+    elif path == '2':
+        second_path(items)
+    elif path == '3':
+        third_path(items)
+    else:
+        random_ness(items)
+
+
+def random_ness(items):
+    path = random.choice(['1', '2', '3'])
+    if path == '1':
+        first_path(items)
+    elif path == '2':
+        second_path(items)
+    elif path == '3':
+        third_path(items)
+
+
+def valid_input(prompt, options):
+    while True:
+        option = input(prompt).lower()
+        if option in options:
+            return option
+        print_pause(f'Sorry, the option "{option}" is invalid. Try again!')
+
+
+def play_again():
+    choice = valid_input("Play again? [y|n]", ['y', 'n'])
+    if choice == 'y':
+        play_game()
+    else:
+        print('Until next time! Goodbye.')
+        exit()
+
+
+def play_game():
+    items = []
+    intro()
+    entry_point(items)
+
+
+play_game()
