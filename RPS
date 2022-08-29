@@ -1,0 +1,127 @@
+import random
+
+
+class Player:
+    score = 0
+
+    def __init__(self):
+        self.my_move = None
+        self.their_move = None
+
+    def learn(self, my_move, their_move):
+        self.their_move = their_move
+        self.my_move = my_move
+
+
+class HumanPlayer(Player):
+    def __int__(self):
+        super().__init__()
+        slef.relation = 'Human Player'
+
+    def move(self):
+        while True:
+            move = input(
+                'CHOOSE ANY MOVE BETWEEN: (rock / paper /  '
+                'scissors)\n').lower()
+            if move in moves:
+                return move
+            else:
+                print('Incorrect name input. Please try again!')
+
+
+class RandomPlayer(Player):
+    def move(self):
+        return random.choice(moves)
+
+
+class ReflectPlayer(Player):
+    def move(self):
+        if self.my_move is None:
+            return random.choice(moves)
+        else:
+            return self.their_move
+
+
+class AlwaysPlayer(Player):
+    def move(self):
+        return 'rock'
+
+
+class CyclePlayer(Player):
+    def move(self):
+        if self.my_move is None:
+            return random.choice(moves)
+        else:
+            index = moves.index(self.my_move) + 1
+            if index = len(moves):
+                index = 0
+            return moves[index]
+
+
+def p1_beats(one, two):
+    return ((one == 'rock' and two == 'scissors') or
+            (one == 'scissors' and two == 'paper') or
+            (one == 'paper' and two == 'rock'))
+
+
+def p2_beats(one, two):
+    return ((one == 'paper' and two == 'scissors') or
+            (one == 'rock' and two == 'paper') or
+            (one == 'scissors' and two == 'rock'))
+
+
+class Game:
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+
+    def play_round(self):
+        move1 = self.p1.move()
+        move2 = self.p2.move()
+        print(f"Player 1: {move1}  Player 2: {move2}")
+        if p1_beats(move1, move2) is True and p2_beats(move1, move2) is False:
+            self.p1.score += 1
+            print('You Won!\n")
+        elif p2_beats(move1, move2) is True and p1_beats(move1, move2) is False:
+            self.p2.score += 1
+            print('Noooo!\n')
+        else:
+            print('Tie!\n')
+        self.p1.learn(move1, move2)
+        self.p2.learn(move2, move1)
+
+    def play_game(self):
+        print("Game start!")
+        for round in range(3):
+            print(f"Round {round}:")
+            self.play_round()
+        print("Game over!")
+        self.p1.score = 0
+        self.p2.score = 0
+
+
+if __name__ == '__main__':
+    moves = ['rock', 'paper', 'scissors']
+
+    relations = {
+        'human': HumanPlayer(),
+        'random': RandomPlayer(),
+        'reflect': ReflectPlayer(),
+        'cycle': CyclePlayer(),
+        'always': AlwaysPlayer()
+    }
+
+    while True:
+        print('rock, paper, scissors - Shoot!\n')
+        print(
+            'The rules of the game are: \n Paper beats rock; rock'
+            'beats scissors; scissors beat paper.\n')
+        choice = input(
+            'Choose a player: (human / random / reflect / cycle'
+            '/ always)\n').lower()
+        if choice in relations:
+            game = Game(relations['human'], relations[choice])
+            game.play_game
+        else:
+            print('No such player. Please try again!')
+
