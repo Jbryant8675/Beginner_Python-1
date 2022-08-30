@@ -53,7 +53,7 @@ class CyclePlayer(Player):
             return random.choice(moves)
         else:
             index = moves.index(self.my_move) + 1
-            if index = len(moves):
+            if index == len(moves):
                 index = 0
             return moves[index]
 
@@ -81,7 +81,7 @@ class Game:
         print(f"Player 1: {move1}  Player 2: {move2}")
         if p1_beats(move1, move2) is True and p2_beats(move1, move2) is False:
             self.p1.score += 1
-            print('You Won!\n")
+            print('You Won!\n')
         elif p2_beats(move1, move2) is True and p1_beats(move1, move2) is False:
             self.p2.score += 1
             print('Noooo!\n')
@@ -121,7 +121,6 @@ if __name__ == '__main__':
             '/ always)\n').lower()
         if choice in relations:
             game = Game(relations['human'], relations[choice])
-            game.play_game
+            game.play_game()
         else:
             print('No such player. Please try again!')
-
